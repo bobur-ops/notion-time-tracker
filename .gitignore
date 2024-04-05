@@ -1,5 +1,6 @@
 frontend/node_modules
 server/node_modules
+node_modules
 dist
 # Ignore .parcel-cache folder
 .parcel-cache
