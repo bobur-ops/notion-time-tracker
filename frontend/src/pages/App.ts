@@ -4,6 +4,7 @@ import Button from "../components/Button";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import { exchangeCodeForAccessToken } from "../utils/notionAuth";
+import { createDatabaseItem } from "../utils/notionClient";
 
 const containerClass = style({
   display: "flex",
@@ -28,7 +29,7 @@ interface StateInterface {
   startTime: Date | null;
   tasks: TaskItemType[];
   currentTaskName: string;
-  timerInterval: number | null | NodeJS.Timeout;
+  timerInterval: number | null | any;
 }
 
 function getPassedTimeFromDateToNow(start: Date, stop: Date): string {
@@ -51,6 +52,10 @@ function getPassedTimeFromDateToNow(start: Date, stop: Date): string {
 export const App = () => {
   let timer: string = "00:00:00";
 
+  const databaseIdState = {
+    databaseId: "",
+  };
+
   const state: StateInterface = {
     startWatch: function () {
       state.isRunning = true;
@@ -67,6 +72,15 @@ export const App = () => {
         stopTime: new Date(),
       };
       state.tasks.push(newTaskItem);
+
+      createDatabaseItem({
+        databaseId: localStorage.getItem("databaseID") || "",
+        name: state.currentTaskName,
+        duration: getPassedTimeFromDateToNow(
+          state.startTime,
+          newTaskItem.stopTime
+        ),
+      });
 
       state.isRunning = false;
       state.startTime = null;
@@ -93,11 +107,63 @@ export const App = () => {
   }
 
   return {
-    view: function () {
+    oninit: function () {
+      const token = localStorage.getItem("token") || null;
+
       const url = new URL(window.location.href);
       const code = url.searchParams.get("code");
+      if (code !== null) {
+        exchangeCodeForAccessToken(code);
+      } else {
+        if (token === null) {
+          console.log("redirect");
+          window.location.href =
+            "https://api.notion.com/v1/oauth/authorize?client_id=695b8556-de84-4c9c-b004-bf84a98457f1&response_type=code&owner=user&redirect_uri=https%3A%2F%2Fwww.notion-time-tracking.bobur.me";
+        }
+      }
+    },
+    view: function () {
+      const databaseID = localStorage.getItem("databaseID") || null;
 
-      exchangeCodeForAccessToken(code || "");
+      if (databaseID === null) {
+        return m(
+          "div",
+          {
+            class: style({
+              fontFamily: "monospace",
+              display: "flex",
+              gap: "1rem",
+            }),
+          },
+          [
+            m("input", {
+              type: "text",
+              value: databaseIdState.databaseId,
+              placeholder: "Enter database ID",
+              oninput: (e: Event) => {
+                const target = e.target as HTMLInputElement;
+                databaseIdState.databaseId = target.value;
+              },
+              class: style({
+                background: "transparent",
+                outline: "none",
+                border: "1px solid black",
+                padding: "8px 12px",
+                flexGrow: 1,
+                fontSize: 18,
+                fontFamily: "monospace",
+              }),
+            }),
+            m(Button, {
+              label: "Save database ID",
+              onclick: () => {
+                localStorage.setItem("databaseID", databaseIdState.databaseId);
+                m.redraw();
+              },
+            }),
+          ]
+        );
+      }
 
       return m("div", [
         m("div", { class: containerClass }, [

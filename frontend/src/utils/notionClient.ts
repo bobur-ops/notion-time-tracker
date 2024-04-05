@@ -1,4 +1,26 @@
-import { Client } from "@notionhq/client";
+import axios from "axios";
 
-const databaseId = "439414171389454690d02b79ab1a8368";
-const secret = "695b8556-de84-4c9c-b004-bf84a98457f1";
+interface TGetUsers {
+  databaseId: string;
+  name: string;
+  duration: string;
+}
+export const createDatabaseItem = async (input: TGetUsers) => {
+  const token = localStorage.getItem("token") || null;
+  console.log(token);
+  if (token === null) return;
+  try {
+    const { data } = await axios.post("http://localhost:1235/api/create-item", {
+      token,
+      database_id: input.databaseId,
+      name: input.name,
+      duration: input.duration,
+    });
+
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
