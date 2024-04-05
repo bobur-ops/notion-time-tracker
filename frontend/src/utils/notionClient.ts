@@ -10,12 +10,15 @@ export const createDatabaseItem = async (input: TGetUsers) => {
   console.log(token);
   if (token === null) return;
   try {
-    const { data } = await axios.post("http://localhost:1235/api/create-item", {
-      token,
-      database_id: input.databaseId,
-      name: input.name,
-      duration: input.duration,
-    });
+    const { data } = await axios.post(
+      "https://notion-time-tracker.onrender.com/api/create-item",
+      {
+        token,
+        database_id: input.databaseId,
+        name: input.name,
+        duration: input.duration,
+      }
+    );
 
     console.log(data);
 

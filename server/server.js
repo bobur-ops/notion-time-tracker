@@ -73,7 +73,7 @@ app.post("/api/exchange-code", async (req, res) => {
       {
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: "https://www.notion-time-tracking.bobur.me",
+        redirect_uri: "https://notion-time-tracker.vercel.app/",
       },
       {
         headers: {

@@ -9,35 +9,11 @@ import {
   where,
 } from "firebase/firestore";
 
-// interface ExchangeTokenResponseInterface {
-//   access_token: string;
-//   token_type: string;
-//   bot_id: string;
-//   workspace_name: string;
-//   workspace_icon: string;
-//   workspace_id: string;
-//   owner: {
-//     type: string;
-//     user: {
-//       object: string;
-//       id: string;
-//       name: string;
-//       avatar_url: string;
-//       type: string;
-//       person: {
-//         email: string;
-//       };
-//     };
-//   };
-//   duplicated_template_id: null | string;
-//   request_id: string;
-// }
-
 export const exchangeCodeForAccessToken = async (code: string) => {
   if (!code) return;
   try {
     const { data } = await axios.post(
-      "http://localhost:1235/api/exchange-code",
+      "https://notion-time-tracker.onrender.com/api/exchange-code",
       {
         code,
       }

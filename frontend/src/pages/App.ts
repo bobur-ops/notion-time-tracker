@@ -118,7 +118,7 @@ export const App = () => {
         if (token === null) {
           console.log("redirect");
           window.location.href =
-            "https://api.notion.com/v1/oauth/authorize?client_id=695b8556-de84-4c9c-b004-bf84a98457f1&response_type=code&owner=user&redirect_uri=https%3A%2F%2Fwww.notion-time-tracking.bobur.me";
+            "https://api.notion.com/v1/oauth/authorize?client_id=695b8556-de84-4c9c-b004-bf84a98457f1&response_type=code&owner=user&redirect_uri=https%3A%2F%2Fnotion-time-tracker.vercel.app";
         }
       }
     },
