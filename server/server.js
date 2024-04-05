@@ -17,6 +17,7 @@ app.get("/api", async (req, res) => {
 
 app.post("/api/exchange-code", async (req, res) => {
   const { code } = req.body;
+
   const encodedIdAndSecret = Buffer.from(`${client}:${secretId}`).toString(
     "base64"
   );
@@ -37,11 +38,8 @@ app.post("/api/exchange-code", async (req, res) => {
         },
       }
     );
-
-    console.log(result.data);
-
     res.status(200).json({
-      message: "Code Exchange Function",
+      message: "Code Exchanged",
       data: result.data,
     });
   } catch (error) {
