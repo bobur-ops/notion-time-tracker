@@ -14,6 +14,7 @@ const containerClass = style({
   width: "100%",
   fontSize: 22,
   fontFamily: "monospace",
+  overflow: "hidden",
 });
 
 type TaskItemType = {
@@ -112,6 +113,7 @@ export const App = () => {
       const token = localStorage.getItem("token") || null;
 
       const url = new URL(window.location.href);
+      console.log("Window location", url);
       const code = url.searchParams.get("code");
       if (code !== null) {
         exchangeCodeForAccessToken(code);
@@ -199,37 +201,6 @@ export const App = () => {
             },
             disabled: state.currentTaskName.length === 0 && state.isRunning,
           }),
-        ]),
-        m("h2", { class: style({ fontFamily: "monospace" }) }, "Tasks"),
-        m("div", { class: style({ fontFamily: "monospace" }) }, [
-          state.tasks.length === 0
-            ? m("h3", "No task found")
-            : m("ul", [
-                state.tasks.map((task) =>
-                  m("li", { key: task.id }, [
-                    m(
-                      "div",
-                      {
-                        class: style({
-                          display: "flex",
-                          gap: "1rem",
-                          fontSize: 18,
-                        }),
-                      },
-                      [
-                        m("div", task.name),
-                        m(
-                          "div",
-                          getPassedTimeFromDateToNow(
-                            task.startTime,
-                            task.stopTime
-                          )
-                        ),
-                      ]
-                    ),
-                  ])
-                ),
-              ]),
         ]),
       ]);
     },
