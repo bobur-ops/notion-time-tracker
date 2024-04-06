@@ -2,13 +2,14 @@ import express from "express";
 import cors from "cors";
 import axios from "axios";
 import { Client } from "@notionhq/client";
+import dotenv from "dotenv";
 
 const client = "695b8556-de84-4c9c-b004-bf84a98457f1";
 const secretId = "secret_VXxQ60Nnjp1VoRteBQUX5E8rErn9GeVwowZCNAbxyzK";
-
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 1235;
-
+console.log(process.env.NOTION_REDIRECT_URI);
 app.use(express.json());
 app.use(cors());
 
@@ -73,7 +74,7 @@ app.post("/api/exchange-code", async (req, res) => {
       {
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: "https://notion-time-tracker.vercel.app/",
+        redirect_uri: process.env.NOTION_REDIRECT_URI,
       },
       {
         headers: {
