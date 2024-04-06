@@ -1,4 +1,5 @@
 import axios from "axios";
+import { axiosInstance } from "../config";
 
 interface TGetUsers {
   databaseId: string;
@@ -10,15 +11,12 @@ export const createDatabaseItem = async (input: TGetUsers) => {
   console.log(token);
   if (token === null) return;
   try {
-    const { data } = await axios.post(
-      "https://notion-time-tracker.onrender.com/api/create-item",
-      {
-        token,
-        database_id: input.databaseId,
-        name: input.name,
-        duration: input.duration,
-      }
-    );
+    const { data } = await axiosInstance.post("create-item", {
+      token,
+      database_id: input.databaseId,
+      name: input.name,
+      duration: input.duration,
+    });
 
     console.log(data);
 

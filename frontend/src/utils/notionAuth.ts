@@ -1,5 +1,5 @@
 import axios from "axios";
-import { firebaseDb } from "../config";
+import { axiosInstance, firebaseDb } from "../config";
 import {
   addDoc,
   collection,
@@ -12,12 +12,9 @@ import {
 export const exchangeCodeForAccessToken = async (code: string) => {
   if (!code) return;
   try {
-    const { data } = await axios.post(
-      "https://notion-time-tracker.onrender.com/api/exchange-code",
-      {
-        code,
-      }
-    );
+    const { data } = await axiosInstance.post("exchange-code", {
+      code,
+    });
 
     createNewUserInFirebaseDb({
       email: data.data.owner.user.person.email,

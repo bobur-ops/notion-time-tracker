@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import m from "mithril";
 import { style } from "typestyle";
 import Button from "../components/Button";
@@ -116,9 +117,10 @@ export const App = () => {
         exchangeCodeForAccessToken(code);
       } else {
         if (token === null) {
-          console.log("redirect");
-          window.location.href =
-            "https://api.notion.com/v1/oauth/authorize?client_id=695b8556-de84-4c9c-b004-bf84a98457f1&response_type=code&owner=user&redirect_uri=https%3A%2F%2Fnotion-time-tracker.vercel.app";
+          const notionAurhURI = process.env.NOTION_AUTH_URI;
+          if (notionAurhURI) {
+            window.location.href = notionAurhURI;
+          }
         }
       }
     },

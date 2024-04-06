@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import axios from "axios";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,6 +23,8 @@ export const app = initializeApp(firebaseConfig);
 export const firebaseDb = getFirestore(app);
 const analytics = getAnalytics(app);
 
-export const redirectUri = "https://cc52-45-9-230-78.ngrok-free.app";
+export const axiosInstance = axios.create({
+  baseURL: process.env.API_BASE_URL,
+});
 
 // https://api.notion.com/v1/oauth/authorize?client_id=695b8556-de84-4c9c-b004-bf84a98457f1&response_type=code&owner=user&redirect_uri=http%3A%2F%2Flocalhost%3A1234
