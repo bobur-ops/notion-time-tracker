@@ -137,6 +137,7 @@ export const App = () => {
               fontFamily: "monospace",
               display: "flex",
               gap: "1rem",
+              width: "100%",
             }),
           },
           [
@@ -169,40 +170,49 @@ export const App = () => {
         );
       }
 
-      return m("div", [
-        m("div", { class: containerClass }, [
-          m("input", {
-            type: "text",
-            value: state.currentTaskName,
-            placeholder: "What are you working on?",
-            oninput: (e: Event) => {
-              const target = e.target as HTMLInputElement;
-              state.currentTaskName = target.value;
-            },
-            class: style({
-              background: "transparent",
-              outline: "none",
-              border: "1px solid black",
-              padding: "8px 12px",
-              flexGrow: 1,
-              fontSize: 18,
-              fontFamily: "monospace",
+      return m(
+        "div",
+        {
+          class: style({
+            margin: "auto",
+            width: "100%",
+          }),
+        },
+        [
+          m("div", { class: containerClass }, [
+            m("input", {
+              type: "text",
+              value: state.currentTaskName,
+              placeholder: "What are you working on?",
+              oninput: (e: Event) => {
+                const target = e.target as HTMLInputElement;
+                state.currentTaskName = target.value;
+              },
+              class: style({
+                background: "transparent",
+                outline: "none",
+                border: "1px solid black",
+                padding: "8px 12px",
+                flexGrow: 1,
+                fontSize: 18,
+                fontFamily: "monospace",
+              }),
             }),
-          }),
-          m("div", { class: style({}) }, timer),
-          m(Button, {
-            label: !state.isRunning ? "Start" : "Stop",
-            onclick: () => {
-              if (state.isRunning) {
-                state.stopWatch();
-              } else {
-                state.startWatch();
-              }
-            },
-            disabled: state.currentTaskName.length === 0 && state.isRunning,
-          }),
-        ]),
-      ]);
+            m("div", { class: style({}) }, timer),
+            m(Button, {
+              label: !state.isRunning ? "Start" : "Stop",
+              onclick: () => {
+                if (state.isRunning) {
+                  state.stopWatch();
+                } else {
+                  state.startWatch();
+                }
+              },
+              disabled: state.currentTaskName.length === 0 && state.isRunning,
+            }),
+          ]),
+        ]
+      );
     },
   };
 };
