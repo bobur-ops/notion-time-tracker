@@ -23,5 +23,8 @@ export const createDatabaseItem = async (input: TGetUsers) => {
     return data;
   } catch (error) {
     console.log(error);
+    localStorage.removeItem("token");
+    localStorage.removeItem("databaseID");
+    window.location.reload();
   }
 };
