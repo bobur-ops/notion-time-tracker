@@ -1,4 +1,3 @@
-import axios from "axios";
 import { axiosInstance, firebaseDb } from "../config";
 import {
   addDoc,
